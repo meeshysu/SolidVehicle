@@ -7,27 +7,29 @@ namespace SolidVehicle
 {
     public interface IGeneralAttributesForVehicle
     {
-         int Wheels { get; set; }
-         int Doors { get; set; }
-         int PassengerCapacity { get; set; }
-         double EngineVolume { get; set; }
+        string Name { get; set; }
+        int Doors { get; set; }
+        int PassengerCapacity { get; set; }
+        double EngineVolume { get; set; }
     }
 
     public interface IWaterVehicle
     {
-         double MaxWaterSpeed { get; set; }
+        double MaxWaterSpeed { get; set; }
     }
 
     public interface ILandVehicle
     {
-         string TransmissionType { get; set; }
-         double MaxLandSpeed { get; set; }
+        int Wheels { get; set; }
+        string TransmissionType { get; set; }
+        double MaxLandSpeed { get; set; }
     }
 
     public interface IAirVehicle
     {
-         bool Winged { get; set; }
-         double MaxAirSpeed { get; set; }
+        bool Winged { get; set; }
+        int Wheels { get; set; }
+        double MaxAirSpeed { get; set; }
     }
 
 
@@ -51,93 +53,108 @@ namespace SolidVehicle
         void Stop();
     }
 
-    public class JetSki : IWaterVehicle, IGeneralAttributesForVehicle, IDrive, IStart, IStop
+    public class WaterVehicle : IWaterVehicle, IGeneralAttributesForVehicle, IDrive, IStart, IStop
     {
-        public int Wheels { get; set; }
+        public string Name { get; set; }
         public int Doors { get; set; }
         public int PassengerCapacity { get; set; }
         public double EngineVolume { get; set; }
         public double MaxWaterSpeed { get; set; }
 
-        public void Drive()
+        public WaterVehicle(string name, int doors, int passengerCapacity, double engineVolume, double maxWaterSpeed)
         {
-            Console.WriteLine("The jetski zips through the waves with the greatest of ease");
+            Name = name;
+            Doors = doors;
+            PassengerCapacity = passengerCapacity;
+            EngineVolume = engineVolume;
+            MaxWaterSpeed = maxWaterSpeed;
         }
 
-        public void Fly()
+        public void Drive()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} zips through the waves with the greatest of ease, with {PassengerCapacity} passengers.");
         }
 
         public void Start()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} starts it's V{EngineVolume} engine.");
         }
         public void Stop()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} stops it's engine after going {MaxWaterSpeed} and the water causes ripples around the boat.");
         }
     }
 
-    public class Motorcycle : ILandVehicle, IGeneralAttributesForVehicle
+    public class LandVehicle : ILandVehicle, IGeneralAttributesForVehicle, IStart, IStop, IDrive
     {
-        public int Wheels { get; set; } = 2;
-        public int Doors { get; set; } = 0;
+        public string Name { get; set;}
+        public int Wheels { get; set; }
+        public int Doors { get; set; }
         public int PassengerCapacity { get; set; }
-        public string TransmissionType { get; set; } = "Manual";
-        public double EngineVolume { get; set; } = 1.3;
-        public double MaxLandSpeed { get; set; } = 160.4;
+        public string TransmissionType { get; set; }
+        public double EngineVolume { get; set; }
+        public double MaxLandSpeed { get; set; }
 
+        public LandVehicle(string name, int wheels, int doors, int passengerCapacity, string transmissionType, double engineVolume, double maxLandSpeed)
+        {
+            Name = name;
+            Wheels = wheels;
+            Doors = doors;
+            PassengerCapacity = passengerCapacity;
+            TransmissionType = transmissionType;
+            EngineVolume = engineVolume;
+            MaxLandSpeed = maxLandSpeed;
+        }
 
         public void Drive()
         {
-            Console.WriteLine("The motorcycle screams down the highway");
-        }
-
-        public void Fly()
-        {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} uses it's V{EngineVolume} to dangerously fly down the highway.");
         }
 
         public void Start()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} is a(n) {TransmissionType} vehicle that can fit {PassengerCapacity} passengers, has {Wheels} wheels and {Doors} doors.");
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} stops. Yay.");
         }
     }
 
-    public class Cessna : IAirVehicle, IGeneralAttributesForVehicle
+    public class AirVehicle : IAirVehicle, IGeneralAttributesForVehicle, IStart, IStop, IFly
     {
-        public int Wheels { get; set; } = 3;
-        public int Doors { get; set; } = 3;
-        public int PassengerCapacity { get; set; } = 113;
+        public string Name { get; set; }
+        public int Wheels { get; set; }
+        public int Doors { get; set; }
+        public int PassengerCapacity { get; set; }
         public bool Winged { get; set; } = true;
-        public double EngineVolume { get; set; } = 31.1;
+        public double EngineVolume { get; set; }
+        public double MaxAirSpeed { get; set; }
 
-        public double MaxAirSpeed { get; set; } = 309.0;
-
-        public void Drive()
+        public AirVehicle(string name, int wheels, int doors, int passengerCapacity, double engineVolume, double maxAirSpeed)
         {
-            throw new NotImplementedException();
+            Name = name;
+            Wheels = wheels;
+            Doors = doors;
+            PassengerCapacity = passengerCapacity;
+            EngineVolume = engineVolume;
+            MaxAirSpeed = engineVolume;
         }
 
         public void Fly()
         {
-            Console.WriteLine("The Cessna effortlessly glides through the clouds like a gleaming god of the Sun");
+            Console.WriteLine($"The {Name} effortlessly glides through space with {Doors} door(s) that must stay shut at all times. It can hold up to {PassengerCapacity} people.");
         }
 
         public void Start()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"The {Name} starts with it's {EngineVolume} volume engine and flies up to it's speed of {MaxAirSpeed}, which is the speed of light... DUH.");
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"When {Name} stops, it's not in midair... it's in midspace! HA!");
         }
     }
 
@@ -146,21 +163,54 @@ namespace SolidVehicle
     {
         public static void Main()
         {
+            //flying vehicles
+            var flyingVehicles = new List<AirVehicle>();
+            var puddleJumper = new AirVehicle("Puddle Jumper", 0, 1, 10, 1000, 100000000);
+            var daedalus = new AirVehicle("Daedalus", 0, 1, 250, 100000, 100000000000000000);
+            flyingVehicles.Add(puddleJumper);
+            flyingVehicles.Add(daedalus);
 
-            // Build a collection of all vehicles that fly
-
-            // With a single `foreach`, have each vehicle Fly()
-
-
-            // Build a collection of all vehicles that operate on roads
-
-            // With a single `foreach`, have each road vehicle Drive()
+            foreach (var ships in flyingVehicles)
+            {
+                ships.Fly();
+                ships.Start();
+                ships.Stop();
+            }
 
 
+            //land vehicles
+            var landVehicles = new List<LandVehicle>();
+            var infinitiG35 = new LandVehicle("Infiniti G35 Coupe", 4, 2, 4, "automatic", 6, 155);
+            var kiaOptima = new LandVehicle("Kia Optima", 4, 4, 5, "automatic", 4, 152);
+            var fordEdge = new LandVehicle("Ford Edge", 4, 4, 5, "automatic", 6, 135);
+            var scionFRS = new LandVehicle("Scion FR-S", 4, 2, 4, "manual", 4, 143);
+            landVehicles.Add(infinitiG35);
+            landVehicles.Add(kiaOptima);
+            landVehicles.Add(fordEdge);
+            landVehicles.Add(scionFRS);
 
-            // Build a collection of all vehicles that operate on water
+            foreach (var cars in landVehicles)
+            {
+                cars.Drive();
+                cars.Start();
+                cars.Stop();
+            }
 
-            // With a single `foreach`, have each water vehicle Drive()
+            //water vehicles
+            var waterVehicles = new List<WaterVehicle>();
+            var bassBoat = new WaterVehicle("ProCraft", 0, 3, 250, 88);
+            var sailBoat = new WaterVehicle("Sail Boat", 1, 6, 2, 49);
+            waterVehicles.Add(bassBoat);
+            waterVehicles.Add(sailBoat);
+
+            foreach (var boats in waterVehicles)
+            {
+                boats.Drive();
+                boats.Start();
+                boats.Stop();
+            }
+
+            Console.ReadLine();
         }
     }
 }
